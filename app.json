@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "email_automation",
-    "slug": "email_automation",
+    "name": "EAT",
+    "slug": "EAT",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
