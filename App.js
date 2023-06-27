@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Button, SafeAreaView, StyleSheet, Alert, Text } from "react-native";
-
 //Importing the installed libraries
 import * as FS from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
+
+import Login from "./src/components/Login";
 
 export default class App extends Component {
   //Class components have a render() function. Whatever is returned inside it is rendered as a React element ...
@@ -11,7 +12,6 @@ export default class App extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       cameraRollPer: null,
       disableButton: false,
@@ -63,7 +63,7 @@ export default class App extends Component {
   toServer = async (mediaFile) => {
     let type = mediaFile.type;
     let schema = "http://";
-    let host = "172.20.10.3";
+    let host = "192.168.1.4";
     let route = "";
     let port = "5000";
     let url = "";
@@ -88,7 +88,7 @@ export default class App extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        {this.state.cameraRollPer ? (
+        {/* {this.state.cameraRollPer ? (
           <Button
             title="Pick From Gallery"
             disabled={this.state.disableButton}
@@ -104,11 +104,13 @@ export default class App extends Component {
           />
         ) : (
           <Text>Camera Roll Permission Required ! </Text>
-        )}
+        )} */}
+        <Login />
       </SafeAreaView>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {

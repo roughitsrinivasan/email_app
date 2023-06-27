@@ -18,7 +18,8 @@
     "react-native": "0.71.8",
     "react-native-aws": "^0.0.1",
     "react-native-aws3": "^0.0.9",
-    "react-native-camera": "^4.2.1"
+    "react-native-camera": "^4.2.1",
+    "react-navigation": "^4.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
