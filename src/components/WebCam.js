@@ -34,7 +34,8 @@ import { AuthContext } from './Context';
   const toServer= async (name,email) => {
     let type = "image";
     let schema = "";
-    let host = "http://2c64-14-97-224-30.ngrok-free.app";
+    // let host = "https://api-two-pearl.vercel.app";
+    let host="http://063f-14-97-224-30.ngrok-free.app";
     let route = `/image?name=${name}&email=${email}`;
     let port = "";
     let url = "";
