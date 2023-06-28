@@ -1,120 +1,101 @@
-import React, { Component } from "react";
-import { Button, SafeAreaView, StyleSheet, Alert, Text } from "react-native";
+// import "react-native-gesture-handler";
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View,Image, Dimensions } from 'react-native';
+// import * as SecureStore from "expo-secure-store";
 
-//Importing the installed libraries
-import * as FS from "expo-file-system";
-import * as ImagePicker from "expo-image-picker";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-export default class App extends Component {
-  //Class components have a render() function. Whatever is returned inside it is rendered as a React element ...
-  
+// CONTEXT
+import { AuthContext } from "./src/components/Context";
 
-  constructor(props) {
-    super(props);
+// SCREENS LOGGEDOUT
 
-    this.state = {
-      cameraRollPer: null,
-      disableButton: false,
-      
-    };
-  }
+import SignIn from './screens/Signin';
+import SignUp from './screens/SignUp';
 
-  async componentDidMount() {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    this.setState((state, props) => {
-      return {
-        cameraRollPer: status === "granted",
-        disableButton: false,
-      };
-    });
-  }
+import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
+import Colors from "./assets/colors/Colors";
 
-  pickMedia = async () => {
-    this.setState((state, props) => {
-      return {
-        cameraRollPer: state.cameraRollPer,
-        disableButton: true,
-      };
-    });
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      base64: true,
-    });
-    if (result.cancelled) {
-      return;
-    }
-    if (result.type == "image") {
-      await this.toServer({
-        type: result.type,
-        base64: result.base64,
-        uri: result.uri,
-      });
-    } else {
-      let base64 = await this.uriToBase64(result.uri);
-      await this.toServer({
-        type: result.type,
-        base64: base64,
-        uri: result.uri,
-      });
-    }
-  };
+// loggedOut screens
+const StackOnBoarding = createStackNavigator();
+const StackOnBoardingScreen = () => {
+	return (
+		<StackOnBoarding.Navigator>
+			{/* <StackOnBoarding.Screen
+				name="Splash"
+				component={Splash}
+				options={{
+					headerShown: false,
+				}}
+			/>
+			<StackOnBoarding.Screen
+				name="OnBoarding"
+				component={Onboarding}
+				options={{
+					headerShown: false,
+				}}
+			/> */}
+			<StackOnBoarding.Screen
+				name="SignIn"
+				component={SignIn}
+				options={{
+					headerShown: false,
+				}}
+			/>
+			<StackOnBoarding.Screen
+				name="SignUp"
+				component={SignUp}
+				options={{
+					headerShown: false,
+				}}
+			/>
+			{/* <StackOnBoarding.Screen
+				name="ForgotPassword"
+				component={ForgotPassword}
+				options={{
+					headerShown: true,
+					title : "Forgot password",
+					headerTitleAlign : "center",
+					headerStyle: {
+						elevation:0,
+					},
+				}}
+			/>
+			<StackOnBoarding.Screen
+					name="ForgotPassword_update"
+					component={ForgotPassword_update}
+					options={{
+						headerShown: true,
+						title : "Forgot password",
+									headerTitleAlign : "center",
+						headerStyle: {
+							elevation:0,
+						},
+					}}
+				/>
+			<StackOnBoarding.Screen
+					name="Explore"
+					component={Explore}
+					options={{
+						headerShown: false,
+					}}
+				/> */}
+		</StackOnBoarding.Navigator>
+	);
+};
 
 
-  toServer = async (mediaFile) => {
-    let type = mediaFile.type;
-    let schema = "http://";
-    let host = "172.20.10.3";
-    let route = "";
-    let port = "5000";
-    let url = "";
-    let content_type = "";
-    type === "image"
-      ? ((route = "/image"), (content_type = "image/jpeg"))
-      : ((route = "/video"), (content_type = "video/mp4"));
-    url = schema + host + ":" + port + route;
 
-    let response = await FS.uploadAsync(url, mediaFile.uri, {
-      headers: {
-        "content-type": content_type,
-      },
-      httpMethod: "POST",
-      uploadType: FS.FileSystemUploadType.BINARY_CONTENT,
-    });
+export default function App() {
 
-    console.log(response.headers);
-    console.log(response.body);
-  };
-
-  render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        {this.state.cameraRollPer ? (
-          <Button
-            title="Pick From Gallery"
-            disabled={this.state.disableButton}
-            onPress={async () => {
-              await this.pickMedia();
-              this.setState((s, p) => {
-                return {
-                  cameraRollPer: s.cameraRollPer,
-                  disableButton: false,
-                };
-              });
-            }}
-          />
-        ) : (
-          <Text>Camera Roll Permission Required ! </Text>
-        )}
-      </SafeAreaView>
-    );
-  }
+  return (
+	<AuthContext.Provider>
+        <NavigationContainer>
+        <StackOnBoardingScreen />
+			{/* {token ? <StackAuthScreen /> : <StackOnBoardingScreen />} */}
+        </NavigationContainer>
+	</AuthContext.Provider>	
+  );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
