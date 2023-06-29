@@ -3,7 +3,6 @@ import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Constants from 'expo-constants';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
-import { MaterialIcons } from '@expo/vector-icons';
 import Button from './Button';
 import * as FS from "expo-file-system";
 import { AuthContext } from './Context';
@@ -11,16 +10,12 @@ import { AuthContext } from './Context';
 
  function WebCam({navigation}) {
   const {getUserName,getUserEmail} = React.useContext(AuthContext);
-  const context=React.useContext(AuthContext);
-  console.log('context',context)
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const cameraRef = useRef(null);
-  const name=getUserName();
-  const email=getUserEmail();
-  console.log('name',name,'email',email);
+
 
   useEffect(() => {
     (async () => {
@@ -31,18 +26,23 @@ import { AuthContext } from './Context';
   }, []);
 
 
-  const toServer= async (name,email) => {
-    let type = "image";
+  const toServer= async () => {
+
+    const name=getUserName();
+    const email=getUserEmail();
+    if(!name || !email){
+      alert('Please Sign In first');
+      navigation.navigate('SignIn');
+      return;
+    }
+    console.log('Received data from User : { ','name',name,'email',email,'}');
     let schema = "";
-    // let host = "https://api-two-pearl.vercel.app";
-    let host="http://063f-14-97-224-30.ngrok-free.app";
+    let host;
+    host = "https://api-two-pearl.vercel.app";
     let route = `/image?name=${name}&email=${email}`;
     let port = "";
     let url = "";
     let content_type = "";
-    // type === "image"
-    //   ? ((route = ""), (content_type = "image/jpeg"))
-    //   : ((route = "/video"), (content_type = "video/mp4"));
     url = schema + host + ":" + port + route;
     try{
 
@@ -54,12 +54,11 @@ import { AuthContext } from './Context';
         uploadType: FS.FileSystemUploadType.BINARY_CONTENT,
       });
       alert('Picture sent! 🎉');
-      console.log(response.headers);
-      console.log(response.body);
+      console.log('Response From Server : { ',response.body,'}');
       navigation.navigate('SignIn');
     }catch(error){
       console.log(error);
-      alert('Picture not sent! 🎉');
+      alert('Picture not sent! 😢');
       navigation.navigate('SignIn');
     }
 
@@ -81,9 +80,7 @@ import { AuthContext } from './Context';
   const savePicture = async () => {
     if (image) {
       try {
-        const asset = await MediaLibrary.createAssetAsync(image);
-        
-        toServer("sudhir","sudirsha02@gmail.com");
+        toServer();
         setImage(null);
         console.log('saved successfully');
       } catch (error) {

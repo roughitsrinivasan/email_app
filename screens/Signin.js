@@ -17,17 +17,15 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-import { FontAwesome, AntDesign } from "@expo/vector-icons";
+import {  AntDesign } from "@expo/vector-icons";
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 import { AuthContext } from "../src/components/Context";
 
 export default function SignIn({ navigation }) {
   // const { setTokenUser } = React.useContext(AuthContext);
   const { setName, setEmail } = React.useContext(AuthContext);
-  const context = React.useContext(AuthContext);
-  console.log(context);
   const[username,setUserName]=useState('');
     const[useremail,setUserEmail]=useState('');
   let [fontsLoaded] = useFonts({
@@ -139,9 +137,10 @@ const styles = StyleSheet.create({
     marginBottom: 60,
   },
   btn_next: {
-    backgroundColor: Colors.secondary,
-    borderTopLeftRadius: 50,
-    borderBottomLeftRadius: 50,
+    backgroundColor: "transparent",
+    borderColor: Colors.google,
+    borderWidth: 3,
+    borderRadius:50,
     paddingVertical: 8,
     paddingHorizontal: 35,
     alignSelf: "flex-end",
@@ -152,7 +151,6 @@ const styles = StyleSheet.create({
     width: width / 2,
   },
   btn_next__text: {
-    // fontWeight : "bold",
     marginRight: 10,
     fontFamily: "Poppins_700Bold",
   },
@@ -176,7 +174,7 @@ const styles = StyleSheet.create({
   carre: {
     width: 100,
     height: 10,
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.blue,
     position: "absolute",
     bottom: 40,
     left: 30,
