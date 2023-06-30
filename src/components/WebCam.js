@@ -16,12 +16,20 @@ import { AuthContext } from './Context';
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const cameraRef = useRef(null);
 
-
   useEffect(() => {
     (async () => {
-      MediaLibrary.requestPermissionsAsync();
+      MediaLibrary.requestPermissionsAsync(); 
       const cameraStatus = await Camera.requestCameraPermissionsAsync();
       setHasCameraPermission(cameraStatus.status === 'granted');
+
+      setTimeout(()=>{
+        console.log("calling takePicture()");
+        try {
+          takePicture();
+        } catch (error) {
+          console.error('error while taking pic ',error)
+        }
+      },5000)
     })();
   }, []);
 

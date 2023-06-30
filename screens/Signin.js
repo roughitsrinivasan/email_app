@@ -43,9 +43,9 @@ export default function SignIn({ navigation }) {
       {/* section one */}
       <View style={styles.sectionOne}>
         <View style={styles.carre}></View>
-        <Text style={styles.sectionOne_title}>Sign In</Text>
+        <Text style={styles.sectionOne_title}>EAS</Text>
         <Text style={styles.description}>
-          If you don't have a account, please signin
+          Email Automation Software
         </Text>
       </View>
       {/* section two */}
@@ -82,7 +82,7 @@ export default function SignIn({ navigation }) {
               navigation.navigate("Camera");
             }}
           >
-            <Text style={styles.btn_next__text}>SIGN IN</Text>
+            <Text style={styles.btn_next__text}>CONTINUE</Text>
             <AntDesign name="arrowright" size={16} color="black" />
           </TouchableOpacity>
         </View>
@@ -115,9 +115,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   form_group__label: {
-    color: Colors.grey,
-    fontFamily: "Poppins_400Regular",
+    color: Colors.dark_grey,
+    fontFamily: "Poppins_700Bold",
     marginBottom: 8,
+    fontSize: 20
   },
   form_group__input: {
     fontSize: 17,
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
   },
   btn_next: {
     backgroundColor: "transparent",
-    borderColor: Colors.google,
+    borderColor: Colors.blue,
     borderWidth: 3,
     borderRadius:50,
     paddingVertical: 8,
@@ -153,6 +154,7 @@ const styles = StyleSheet.create({
   btn_next__text: {
     marginRight: 10,
     fontFamily: "Poppins_700Bold",
+    color: Colors.blue
   },
   socialButton: {
     borderWidth: 1,
